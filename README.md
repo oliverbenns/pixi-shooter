@@ -1,5 +1,7 @@
 # Pixi Shooter
 
+Experimenting & prototyping with [PixiJS](https://github.com/pixijs/pixi.js).
+
 ## Install
 - `nvm install`
 - `npm install`
