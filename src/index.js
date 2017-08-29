@@ -1,30 +1,24 @@
 import * as Pixi from 'pixi.js';
+import Game from 'core/game';
+import Player from 'game/player';
+import { DISPLAY } from 'core/constants';
 
-// The application will create a renderer using WebGL, if possible,
-// with a fallback to a canvas render. It will also setup the ticker
-// and the root stage PIXI.Container.
-const app = new Pixi.Application();
+const game = new Game({
+  selector: '#game',
+  display: DISPLAY.WIDE,
+});
 
-// The application will create a canvas element for you that you
-// can then insert into the DOM.
-document.body.appendChild(app.view);
+const assets = [
+  { name: 'icon', url: 'assets/img/favicon.png' },
+];
 
-// load the texture we need
-Pixi.loader.add('icon', 'assets/img/favicon.png').load((loader, resources) => {
+game.load(assets, resources => {
   // This creates a texture from an image.
-  const sprite = new Pixi.Sprite(resources.icon.texture);
-
-  // Setup the position of the sprite
-  sprite.x = app.renderer.width / 2;
-  sprite.y = app.renderer.height / 2;
-
-  // Rotate around the center
-  sprite.anchor.x = 0.5;
-  sprite.anchor.y = 0.5;
+  const player = new Player(game, resources.icon.texture);
 
   // Add the sprite to the scene we are building.
-  app.stage.addChild(sprite);
+  game.stage.addChild(player);
 
   // Listen for frame updates
-  app.ticker.add(() => sprite.rotation += 0.05);
+  game.ticker.add(player.update);
 });
