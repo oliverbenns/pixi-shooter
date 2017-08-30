@@ -18,7 +18,7 @@ export default class Player extends Sprite {
   }
 
   update(deltaTime) {
-    const { space, w, a, s, d } = this.game.input.keys;
+    const { space, w, a, s, d } = this.game.keyboard.keys;
 
     this.speed = space.isDown ? 4 : 2;
 

@@ -23,7 +23,7 @@ game.load(assets, resources => {
   // Listen for frame updates
   game.ticker.add(player.update);
 
-  game.input = new Keyboard([ KEYS.W, KEYS.A, KEYS.S, KEYS.D, KEYS.SPACE ]);
+  game.keyboard = new Keyboard([ KEYS.W, KEYS.A, KEYS.S, KEYS.D, KEYS.SPACE ]);
 
   game.ticker.add(player.update);
 });
