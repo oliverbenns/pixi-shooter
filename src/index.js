@@ -2,7 +2,7 @@ import * as Pixi from 'pixi.js';
 import Game from 'core/game';
 import Player from 'game/player';
 import { DISPLAY } from 'core/constants';
-import KeyboardManager, { KEYS } from 'core/input/keyboard-manager';
+import Keyboard, { KEYS } from 'core/input/keyboard';
 
 const game = new Game({
   selector: '#game',
@@ -23,7 +23,7 @@ game.load(assets, resources => {
   // Listen for frame updates
   game.ticker.add(player.update);
 
-  this.input = new KeyboardManager([KEYS.W, KEYS.A, KEYS.S, KEYS.D]);
+  game.input = new Keyboard([ KEYS.W, KEYS.A, KEYS.S, KEYS.D, KEYS.SPACE ]);
 
   game.ticker.add(player.update);
 });
