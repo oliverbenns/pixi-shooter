@@ -5,6 +5,7 @@ export { KEYS };
 
 // @TODO: Need to emit events and add callbacks to them.
 // @TODO: Add significant tests.
+// @TODO: Wire up Key.isPressed (how?)
 
 export default class Keyboard {
   constructor(keyCodes) {
