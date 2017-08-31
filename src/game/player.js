@@ -1,19 +1,24 @@
 import Sprite from 'core/sprite';
 import Vector from 'core/vector';
 import { toDegree } from 'lib/math';
+import * as Pixi from 'pixi.js';
+import GameObject from 'core/game-object';
+import { Bodies } from 'core/physics';
 
-export default class Player extends Sprite {
-  constructor(game, texture) {
-    super(texture);
+export default class Player extends GameObject {
+  constructor(game) {
+    const { texture } = Pixi.loader.resources.survivor;
+    const sprite = new Pixi.Sprite(texture);
+    const rigidBody = Bodies.rectangle(50, 50, 50, 50);
 
-    this.game = game;
+    super(game, sprite, rigidBody);
 
-    this.x = game.renderer.width / 2;
-    this.y = game.renderer.height / 2;
+    this.sprite.x = game.renderer.width / 2;
+    this.sprite.y = game.renderer.height / 2;
 
     // Rotate around the center
-    this.anchor.x = 0.5;
-    this.anchor.y = 0.5;
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
     this.speed = 4;
 
     this.update = this.update.bind(this);
@@ -29,25 +34,25 @@ export default class Player extends Sprite {
     this.speed = space.isDown ? 8 : 4;
 
     if (w.isDown) {
-      this.y -= this.speed * deltaTime;
+      this.sprite.y -= this.speed * deltaTime;
     }
 
     if (s.isDown) {
-      this.y += this.speed * deltaTime;
+      this.sprite.y += this.speed * deltaTime;
     }
 
     if (d.isDown) {
-      this.x += this.speed * deltaTime;
+      this.sprite.x += this.speed * deltaTime;
     }
 
     if (a.isDown) {
-      this.x -= this.speed * deltaTime;
+      this.sprite.x -= this.speed * deltaTime;
     }
   }
 
   lookTo(x, y) {
     const target = new Vector(x, y);
-    const playerP = new Vector(this.position.x, this.position.y);
+    const playerP = new Vector(this.sprite.position.x, this.sprite.position.y);
 
     const distance = target.distanceTo(playerP);
 
@@ -55,6 +60,6 @@ export default class Player extends Sprite {
 
     const degree = toDegree(angle);
     // console.log('degree', degree);
-    this.rotation = angle;
+    this.sprite.rotation = angle;
   }
 }

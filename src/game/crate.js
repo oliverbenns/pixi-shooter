@@ -1,13 +1,17 @@
-import Sprite from 'core/sprite';
+import * as Pixi from 'pixi.js';
+import GameObject from 'core/game-object';
+import { Bodies } from 'core/physics';
 
-export default class Crate extends Sprite {
-  constructor(game, texture) {
-    super(texture);
+export default class Crate extends GameObject {
+  constructor(game) {
+    const { texture } = Pixi.loader.resources.crate;
+    const sprite = new Pixi.Sprite(texture);
+    const rigidBody = Bodies.rectangle(50, 50, 50, 50);
 
-    this.game = game;
+    super(game, sprite, rigidBody);
 
-    this.x = 100;
-    this.y = 100;
+    this.sprite.x = 100;
+    this.sprite.y = 100;
 
     this.update = this.update.bind(this);
   }

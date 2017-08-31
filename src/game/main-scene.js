@@ -3,12 +3,12 @@ import Player from 'game/player';
 import Scene from 'core/scene';
 
 export default class MainScene extends Scene {
-  constructor(game, resources) {
+  constructor(game) {
     super(game);
 
     const objects = [
-      new Player(game, resources.survivor.texture),
-      new Crate(game, resources.crate.texture),
+      new Player(game),
+      new Crate(game),
     ];
 
     objects.forEach(this.add);
