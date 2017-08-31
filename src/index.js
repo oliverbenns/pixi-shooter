@@ -1,7 +1,6 @@
 import Game from 'core/game'
 import { DISPLAY } from 'core/constants';
 import Keyboard, { KEYS } from 'core/input/keyboard';
-import Mouse from 'core/input/mouse';
 
 import MainScene from 'game/main-scene';
 
