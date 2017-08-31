@@ -1,29 +1,35 @@
 import * as Pixi from 'pixi.js';
 import Game from 'core/game';
+import Crate from 'game/crate';
 import Player from 'game/player';
+
 import { DISPLAY } from 'core/constants';
 import Keyboard, { KEYS } from 'core/input/keyboard';
+import Mouse from 'core/input/mouse';
 import Vector from 'core/vector';
 import { toDegree } from 'lib/math';
+import Scene from 'core/scene';
 
 const game = new Game({
   selector: '#game',
   display: DISPLAY.WIDE,
+  width: 800,
 });
 
 const assets = [
-  { name: 'icon', url: 'assets/img/survivor/survivor.png' },
+  { name: 'survivor', url: 'assets/img/survivor.png' },
+  { name: 'crate', url: 'assets/img/crate.png' },
 ];
 
 game.load(assets, resources => {
-  // This creates a texture from an image.
-  const player = new Player(game, resources.icon.texture);
+  const scene = new Scene(game);
+  const player = new Player(game, resources.survivor.texture);
+  const crate = new Crate(game, resources.crate.texture);
 
-  // Add the sprite to the scene we are building.
-  game.stage.addChild(player);
+  scene.add(player);
+  scene.add(crate);
 
-  // Listen for frame updates
-  game.ticker.add(player.update);
+  game.ticker.add(scene.update);
 
   game.keyboard = new Keyboard([ KEYS.W, KEYS.A, KEYS.S, KEYS.D, KEYS.SPACE ]);
 
@@ -36,9 +42,9 @@ game.load(assets, resources => {
     const angle = Math.atan2(mouseP.y - playerP.y, mouseP.x - playerP.x);
 
     const degree = toDegree(angle);
-    console.log('degree', degree);
+    // console.log('degree', degree);
     player.rotation = angle;
   });
 
-  game.ticker.add(player.update);
+  // gameObjects.forEach(o => game.ticker.add(o.update));
 });

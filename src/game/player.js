@@ -12,7 +12,7 @@ export default class Player extends Sprite {
     // Rotate around the center
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
-    this.speed = 2;
+    this.speed = 4;
 
     this.update = this.update.bind(this);
   }
@@ -20,7 +20,7 @@ export default class Player extends Sprite {
   update(deltaTime) {
     const { space, w, a, s, d } = this.game.keyboard.keys;
 
-    this.speed = space.isDown ? 4 : 2;
+    this.speed = space.isDown ? 8 : 4;
 
     if (w.isDown) {
       this.y -= this.speed * deltaTime;
