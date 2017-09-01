@@ -6,6 +6,7 @@ export default class Sound {
     this.node = Sound.context.createBufferSource();
     this.gainNode = Sound.context.createGain();
     this.node.connect(this.gainNode);
+    this.gainNode.connect(Sound.context.destination);
 
     this.loading = true;
     this.loop = loop;
@@ -13,10 +14,8 @@ export default class Sound {
     this.speed = speed;
     this.volume = volume;
 
-    this.connectData = this.connectData.bind(this);
-    this.play = this.play.bind(this);
-
     this.promise = this.load(url);
+    this.play = this.play.bind(this);
   }
 
   load(url) {
@@ -24,6 +23,7 @@ export default class Sound {
 
     if (cache) {
       this.connectData(cache);
+      this.node.buffer = cache;
       this.loading = false;
       return;
     }
@@ -31,22 +31,16 @@ export default class Sound {
     return fetch(url)
       .then(res => res.arrayBuffer())
       .then(buffer => Sound.context.decodeAudioData(buffer))
-      .then(this.connectData)
       .then(data => {
         // Memoize
         Sound.cache[url] = data;
+        this.node.buffer = data;
         this.loading = false;
       })
       .catch(err => {
         console.error(`Error loading sound from ${url}`, err);
         this.error = err;
       });
-  }
-
-  connectData(data) {
-    this.node.buffer = data;                    // tell the source which sound to play
-    this.gainNode.connect(Sound.context.destination);       // connect the source to the context's destination (the speakers)
-    return data;
   }
 
   play() {
