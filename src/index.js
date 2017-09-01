@@ -4,6 +4,7 @@ import Keyboard, { KEYS } from 'core/input/keyboard';
 import { Bodies, Engine, World } from 'core/physics';
 
 import MainScene from 'game/main-scene';
+import Sound from 'core/sound';
 
 const engine = Engine.create();
 
@@ -17,6 +18,9 @@ const assets = [
   { name: 'survivor', url: 'assets/img/survivor.png' },
   { name: 'crate', url: 'assets/img/crate.png' },
 ];
+
+const sound = new Sound('assets/audio/sfx.mp3');
+sound.play();
 
 game.load(assets, resources => {
   game.keyboard = new Keyboard([ KEYS.W, KEYS.A, KEYS.S, KEYS.D, KEYS.SPACE ]);
