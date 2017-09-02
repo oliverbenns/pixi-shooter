@@ -17,6 +17,9 @@ export default class Scene {
   }
 
   update(deltaTime) {
-    this.gameObjects.forEach(o => o.update(deltaTime));
+    this.gameObjects.forEach(o => {
+      o.updatePhysics(deltaTime); // o.body ?
+      o.update(deltaTime);
+    });
   }
 }

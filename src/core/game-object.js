@@ -1,5 +1,5 @@
 import * as Pixi from 'pixi.js';
-import { World } from 'core/physics';
+import Physics from 'core/physics';
 
 // Main container that houses other components.
 // Inspired by Unity https://docs.unity3d.com/Manual/class-GameObject.html
@@ -9,9 +9,12 @@ export default class GameObject {
 
     this.sprite = sprite ? sprite : null;
 
+    // @TODO: What if they add a body later?
+    // Maybe it always requires it on obj creation and we specify a disabled flag.
+    // @TODO: Put this on a body class instead.
     if (rigidBody) {
       this.rigidBody = rigidBody;
-      World.add(this.game.engine.world, this.rigidBody);
+      Physics.World.add(this.game.engine.world, this.rigidBody);
     }
   }
 
@@ -45,13 +48,13 @@ export default class GameObject {
     }
   }
 
-  update() {
-    // if (this.sprite && this.sprite.update) {
+  updatePhysics() {
+    if (!this.rigidBody || !this.sprite) {
+      return;
+    }
 
-    // }
-
-    // if (this.body) {
-
-    // }
+    // @TODO: Update this so that the sprite movement actually does something. Velocity?
+    this.sprite.position.x = this.rigidBody.position.x;
+    this.sprite.position.y = this.rigidBody.position.y;
   }
 }

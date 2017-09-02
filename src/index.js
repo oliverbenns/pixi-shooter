@@ -25,10 +25,5 @@ game.load(assets, resources => {
 
   game.ticker.add(deltaTime => {
     mainScene.update(deltaTime);
-
-    // This needs to go on the GameObject somehow.
-    const player = mainScene.gameObjects[0];
-    player.sprite.position.x = player.rigidBody.position.x;
-    player.sprite.position.y = player.rigidBody.position.y;
   });
 });

@@ -1,12 +1,13 @@
 import * as Pixi from 'pixi.js';
 import GameObject from 'core/game-object';
-import { Bodies } from 'core/physics';
+import Graphics from 'core/graphics';
+import Physics from 'core/physics';
 
 export default class Crate extends GameObject {
   constructor(game) {
     const { texture } = Pixi.loader.resources.crate;
-    const sprite = new Pixi.Sprite(texture);
-    const rigidBody = Bodies.rectangle(50, 50, 50, 50);
+    const sprite = new Graphics.Sprite(texture);
+    const rigidBody = new Physics.Rectangle(200, 50, 50, 50);
 
     super(game, sprite, rigidBody);
 
