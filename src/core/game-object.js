@@ -1,4 +1,5 @@
 import * as Pixi from 'pixi.js';
+import { World } from 'core/physics';
 
 // Main container that houses other components.
 // Inspired by Unity https://docs.unity3d.com/Manual/class-GameObject.html
@@ -7,7 +8,11 @@ export default class GameObject {
     this.game = game;
 
     this.sprite = sprite ? sprite : null;
-    this.rigidBody = rigidBody ? rigidBody : null;
+
+    if (rigidBody) {
+      this.rigidBody = rigidBody;
+      World.add(this.game.engine.world, this.rigidBody);
+    }
   }
 
   get x() {
@@ -26,7 +31,7 @@ export default class GameObject {
     }
 
     if (this.rigidBody) {
-      this.rigidBody.position.x = x
+      this.rigidBody.position.x = x;
     }
   }
 
@@ -36,7 +41,17 @@ export default class GameObject {
     }
 
     if (this.rigidBody) {
-      this.rigidBody.position.y = y
+      this.rigidBody.position.y = y;
     }
+  }
+
+  update() {
+    // if (this.sprite && this.sprite.update) {
+
+    // }
+
+    // if (this.body) {
+
+    // }
   }
 }

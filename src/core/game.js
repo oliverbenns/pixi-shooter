@@ -1,5 +1,6 @@
 import * as Pixi from 'pixi.js';
 import { DISPLAY } from 'core/constants'
+import { Bodies, Engine, World } from 'core/physics';
 
 export default class Game extends Pixi.Application {
   constructor({ display, onLoad, selector, width = window.innerWidth }) {
@@ -21,6 +22,10 @@ export default class Game extends Pixi.Application {
       antialias: true,
       view: domElement,
     });
+
+    this.update = this.update.bind(this);
+    this.engine = Engine.create();
+    this.ticker.add(this.update);
   }
 
 
@@ -29,5 +34,11 @@ export default class Game extends Pixi.Application {
     assets.forEach(asset => Pixi.loader.add(asset.name, asset.url));
 
     Pixi.loader.load((loader, resources) => callback(resources));
+  }
+
+  update(deltaTime) {
+    // https://github.com/liabru/matter-js/issues/57#issuecomment-289894977
+    const ms = deltaTime * (1000 / 60);
+    Engine.update(this.engine, ms);
   }
 }
