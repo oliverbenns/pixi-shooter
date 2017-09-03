@@ -1,6 +1,7 @@
 import * as Pixi from 'pixi.js';
 import { DISPLAY } from 'core/constants'
 import Physics from 'core/physics';
+import SceneManager from 'core/scene-manager';
 
 export default class Game extends Pixi.Application {
   constructor({ display, onLoad, selector, width = window.innerWidth }) {
@@ -26,6 +27,7 @@ export default class Game extends Pixi.Application {
     this.update = this.update.bind(this);
     this.engine = new Physics.Engine.create();
     this.ticker.add(this.update);
+    this.scenes = new SceneManager(this);
   }
 
   // Right now this is bulk loading all assets.
@@ -39,5 +41,7 @@ export default class Game extends Pixi.Application {
     // https://github.com/liabru/matter-js/issues/57#issuecomment-289894977
     const ms = deltaTime * (1000 / 60);
     Physics.Engine.update(this.engine, ms);
+
+    this.scenes.updateActive(deltaTime);
   }
 }

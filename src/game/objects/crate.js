@@ -4,15 +4,16 @@ import Graphics from 'core/graphics';
 import Physics from 'core/physics';
 
 export default class Crate extends GameObject {
-  constructor(game) {
+  constructor(game, x, y) {
     const { texture } = Pixi.loader.resources.crate;
     const sprite = new Graphics.Sprite(texture);
-    const rigidBody = new Physics.Rectangle(200, 50, 50, 50);
+    const rigidBody = new Physics.Rectangle(x, y, 50, 50);
 
     super(game, sprite, rigidBody);
 
-    this.sprite.x = 100;
-    this.sprite.y = 100;
+    // @TODO: This is not right.
+    this.sprite.x = x;
+    this.sprite.y = y;
 
     this.update = this.update.bind(this);
   }
