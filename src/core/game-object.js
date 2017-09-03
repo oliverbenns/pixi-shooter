@@ -14,6 +14,11 @@ export default class GameObject {
     // @TODO: Put this on a body class instead.
     if (rigidBody) {
       this.rigidBody = rigidBody;
+
+      // @TODO: This should happen automatically on creation.
+      this.sprite.position.x = this.rigidBody.position.y;
+      this.sprite.position.x = this.rigidBody.position.y;
+
       Physics.World.add(this.game.engine.world, this.rigidBody);
     }
   }
@@ -48,13 +53,25 @@ export default class GameObject {
     }
   }
 
+  // @TODO Seperate this into a seperate body class.
+  // preUpdatePhysics() {
+  //   this.
+  // }
+
+  // postUpdatePhysics() {
+
+  // }
+
+  // Need a pre and post here.
   updatePhysics() {
     if (!this.rigidBody || !this.sprite) {
       return;
     }
 
+    // this.sprite.rotation += this.rigidBody.angularVelocity;
+
     // @TODO: Update this so that the sprite movement actually does something. Velocity?
-    this.sprite.position.x = this.rigidBody.position.x;
-    this.sprite.position.y = this.rigidBody.position.y;
+    this.sprite.position.x += this.rigidBody.velocity.x;
+    this.sprite.position.y += this.rigidBody.velocity.y;
   }
 }

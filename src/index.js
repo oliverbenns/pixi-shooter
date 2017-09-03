@@ -11,6 +11,8 @@ const game = new Game({
   width: 800,
 });
 
+game.engine.world.gravity.scale = 0.0001;
+
 const assets = [
   { name: 'survivor', url: 'assets/img/survivor.png' },
   { name: 'crate', url: 'assets/img/crate.png' },
