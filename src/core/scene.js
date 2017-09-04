@@ -1,11 +1,16 @@
+import Graphics from 'core/graphics';
+
 export default class Scene {
   constructor(game) {
     this.game = game;
     this.gameObjects = [];
     // this.active = false;
-
+    this.stage = new Graphics.Container();
     this.add = this.add.bind(this);
     this.update = this.update.bind(this);
+    // console.log('this.container', this.container);
+
+    // this.game.stage.addChild(this.stage);
   }
 
   add(gameObject) {
@@ -14,7 +19,7 @@ export default class Scene {
       // this is the issue. Maybe we want a physics world and a renderer PER scene?
       // Or maybe just a pixi container that we can toggle.
       // This probably depends on how expensive having multiple renderers + worlds are.
-      this.game.stage.addChild(gameObject.sprite);
+      this.stage.addChild(gameObject.sprite);
     }
 
     this.gameObjects.push(gameObject);
@@ -32,17 +37,12 @@ export default class Scene {
     });
   }
 
-  // get active() {
-  //   this.game.scenes.active === this;
-  // }
+  // @TODO: Do I even really need a parent stage?
+  start() {
+    this.game.stage.addChild(this.stage);
+  }
 
-  // activate() {
-  //   this.active = true;
-  // }
-
-  // or pause?
-  // deactivate() {
-    // @TODO: Remove all bodies from Physics.World / this.game.engine.world.
-    // this.active = false;
-  // }
+  stop() {
+    this.game.stage.removeChild(this.stage);
+  }
 }

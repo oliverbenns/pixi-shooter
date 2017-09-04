@@ -12,7 +12,7 @@ const game = new Game({
   width: 800,
 });
 
-game.engine.world.gravity.scale = 0.0001;
+game.engine.world.gravity.scale = 0.00005;
 
 const assets = [
   { name: 'survivor', url: 'assets/img/survivor.png' },
@@ -28,7 +28,7 @@ game.load(assets, resources => {
   const titleScene = new TitleScene(game, resources);
 
   // game.scenes.add('foo', mainScene);
-  game.scenes.add('bar', titleScene);
-
-  console.log('game', game);
+  game.scenes.add('title', titleScene);
+  game.scenes.add('main', mainScene);
+  game.scenes.start('title');
 });

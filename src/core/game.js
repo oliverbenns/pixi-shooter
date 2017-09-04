@@ -28,6 +28,7 @@ export default class Game extends Pixi.Application {
     this.engine = new Physics.Engine.create();
     this.ticker.add(this.update);
     this.scenes = new SceneManager(this);
+    // console.log('this.renderer', this.renderer);
   }
 
   // Right now this is bulk loading all assets.

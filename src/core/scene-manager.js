@@ -37,7 +37,7 @@ export default class SceneManager {
       return;
     }
 
-    if (isActive(name)) {
+    if (this.isActive(name)) {
       console.error('Cannot remove the current active scene');
       return;
     }
@@ -53,13 +53,16 @@ export default class SceneManager {
       return;
     }
 
-    if (isActive(name)) {
+    if (this.isActive(name)) {
       return;
     }
 
-    this.active.deactivate();
+    if (this.active) {
+      this.active.stop();
+    }
+
     this.active = scene;
-    this.active.activate();
+    this.active.start();
   }
 
   updateActive(deltaTime) {
