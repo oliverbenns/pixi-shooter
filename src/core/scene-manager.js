@@ -1,8 +1,7 @@
 import Scene from './scene';
 
 export default class SceneManager {
-  constructor(game) {
-    this.game = game;
+  constructor() {
     this.active = null;
     this.scenes = {};
   }
@@ -57,12 +56,7 @@ export default class SceneManager {
       return;
     }
 
-    if (this.active) {
-      this.active.stop();
-    }
-
     this.active = scene;
-    this.active.start();
   }
 
   updateActive(deltaTime) {

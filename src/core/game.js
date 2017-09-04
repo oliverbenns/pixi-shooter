@@ -3,8 +3,8 @@ import { DISPLAY } from 'core/constants'
 import Physics from 'core/physics';
 import SceneManager from 'core/scene-manager';
 
-export default class Game extends Pixi.Application {
-  constructor({ display, onLoad, selector, width = window.innerWidth }) {
+export default class Game {
+  constructor({ display, selector, width = window.innerWidth }) {
     const domElement = document.querySelector(selector);
 
     if (!domElement || !(domElement instanceof HTMLCanvasElement)) {
@@ -16,19 +16,18 @@ export default class Game extends Pixi.Application {
       display = DISPLAY.STANDARD;
       console.warn(`Invalid display, game using standard ${display.x}:${display.y} ratio`);
     }
-
-    super({
+    this.engine = new Physics.Engine.create();
+    this.scenes = new SceneManager();
+    this.ticker = new Pixi.ticker.Ticker();
+    this.renderer = new Pixi.WebGLRenderer({
       width,
       height: width / display.x * display.y,
       antialias: true,
       view: domElement,
     });
 
-    this.update = this.update.bind(this);
-    this.engine = new Physics.Engine.create();
-    this.ticker.add(this.update);
-    this.scenes = new SceneManager(this);
-    // console.log('this.renderer', this.renderer);
+    this.ticker.add(this.update, this);
+    this.ticker.start();
   }
 
   // Right now this is bulk loading all assets.
@@ -39,10 +38,16 @@ export default class Game extends Pixi.Application {
   }
 
   update(deltaTime) {
+    // Physics
     // https://github.com/liabru/matter-js/issues/57#issuecomment-289894977
+    // @TODO: Figure out how to only render the current stage, right now we are adding all objects to global world.
     const ms = deltaTime * (1000 / 60);
     Physics.Engine.update(this.engine, ms);
 
+    // Graphics
+    if (this.scenes.active) {
+      this.renderer.render(this.scenes.active.stage);
+    }
     this.scenes.updateActive(deltaTime);
   }
 }

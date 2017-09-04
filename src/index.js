@@ -27,8 +27,17 @@ game.load(assets, resources => {
   const mainScene = new MainScene(game, resources);
   const titleScene = new TitleScene(game, resources);
 
-  // game.scenes.add('foo', mainScene);
   game.scenes.add('title', titleScene);
   game.scenes.add('main', mainScene);
+
   game.scenes.start('title');
+
+  setTimeout(() => {
+    game.scenes.start('main');
+  }, 2000);
+
+
+  setTimeout(() => {
+    game.scenes.start('title');
+  }, 3000);
 });
