@@ -27,21 +27,11 @@ game.load(assets, resources => {
   game.keyboard = new Keyboard([ KEYS.W, KEYS.A, KEYS.S, KEYS.D, KEYS.SPACE ]);
   game.pointer = new Pointer(game);
 
-  game.pointer.left.emitter.subscribe('down', (e) => {
-    console.log('e', e);
-    console.log('pressed down');
-  });
-
-  game.pointer.left.emitter.subscribe('up', (e) => {
-    console.log('e', e);
-    console.log('pressed up');
-  });
-
   const mainScene = new MainScene(game, resources);
   const titleScene = new TitleScene(game, resources);
 
   game.scenes.add('title', titleScene);
   game.scenes.add('main', mainScene);
 
-  game.scenes.start('title');
+  game.scenes.start('main');
 });

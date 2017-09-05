@@ -1,3 +1,4 @@
+import Emitter from 'core/emitter';
 import MouseButton from './button';
 
 // @TODO: Add support for durations / dragging / to/from.
@@ -11,15 +12,24 @@ export default class Pointer {
     this.left = new MouseButton(0);
     this.right = new MouseButton(2);
 
-    this.onMouse = this.onMouse.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
 
-    this.canvas.addEventListener('mousedown', e => this.onMouse(e, this.onMouseDown), true);
-    this.canvas.addEventListener('mouseup', e => this.onMouse(e, this.onMouseUp), true);
+    this.emitter = new Emitter();
+
+    this.canvas.addEventListener('mousemove', this.onMouseMove  , true);
+    this.canvas.addEventListener('mousedown', e => this.onClick(e, this.onMouseDown), true);
+    this.canvas.addEventListener('mouseup', e => this.onClick(e, this.onMouseUp), true);
   }
 
-  onMouse(e, fn) {
+  onMouseMove(e) {
+    const position = this.getPosition(e);
+    this.emitter.publish('move', position);
+  }
+
+  onClick(e, fn) {
     const mouseButton = [this.left, this.right].find(b => b.code === e.button);
 
     if (!mouseButton) {

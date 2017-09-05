@@ -22,10 +22,8 @@ export default class Player extends GameObject {
     this.speed = 4;
 
     this.update = this.update.bind(this);
-    this.game.renderer.plugins.interaction.on('mousemove', e => {
-      const { x, y } = e.data.global;
-      this.lookTo(x, y);
-    });
+
+    game.pointer.emitter.subscribe('move', e => this.lookTo(e.x, e.y));
   }
 
   update(deltaTime) {
