@@ -1,33 +1,15 @@
 import * as Pixi from 'pixi.js';
-import { DISPLAY } from 'core/constants'
 import Physics from 'core/physics';
+import Graphics from 'core/graphics';
 import SceneManager from 'core/scene-manager';
 
 export default class Game {
-  constructor({ display, selector, width = window.innerWidth }) {
-    const domElement = document.querySelector(selector);
-
-    if (!domElement || !(domElement instanceof HTMLCanvasElement)) {
-      console.error(`Canvas element '${selector}' not found`);
-    }
-
-    // @TODO: Do better checking here.
-    if (!display.x || !display.y) {
-      display = DISPLAY.STANDARD;
-      console.warn(`Invalid display, game using standard ${display.x}:${display.y} ratio`);
-    }
+  constructor(view, { height = 600, width = 800 } = {}) {
+    this.renderer = new Graphics.Renderer({ width, height, view });
     this.engine = new Physics.Engine.create();
     this.scenes = new SceneManager();
-    this.ticker = new Pixi.ticker.Ticker();
-    this.renderer = new Pixi.WebGLRenderer({
-      width,
-      height: width / display.x * display.y,
-      antialias: true,
-      view: domElement,
-    });
 
-    // Prevent right click
-    this.renderer.view.oncontextmenu = e => e.preventDefault(); // Disables right click
+    this.ticker = new Pixi.ticker.Ticker();
 
     this.ticker.add(this.update, this);
     this.ticker.start();

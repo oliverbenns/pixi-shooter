@@ -1,5 +1,4 @@
 import Game from 'core/game'
-import { DISPLAY } from 'core/constants';
 import Keyboard, { KEYS } from 'core/input/keyboard';
 import Pointer from 'core/input/pointer';
 import Sound from 'core/sound';
@@ -7,11 +6,9 @@ import Sound from 'core/sound';
 import MainScene from 'game/scenes/main';
 import TitleScene from 'game/scenes/title';
 
-const game = new Game({
-  selector: '#game',
-  display: DISPLAY.WIDE,
-  width: 800,
-});
+const canvas = document.querySelector('#game');
+
+const game = new Game(canvas);
 
 game.engine.world.gravity.scale = 0.00005;
 
