@@ -30,21 +30,22 @@ export default class Player extends GameObject {
     const { space, w, a, s, d } = this.game.keyboard.keys;
 
     this.speed = space.isDown ? 8 : 4;
+    const frameSpeed = this.speed * deltaTime;
 
     if (w.isDown) {
-      this.sprite.y -= this.speed * deltaTime;
+      this.sprite.y -= frameSpeed;
     }
 
     if (s.isDown) {
-      this.sprite.y += this.speed * deltaTime;
+      this.sprite.y += frameSpeed;
     }
 
     if (d.isDown) {
-      this.sprite.x += this.speed * deltaTime;
+      this.sprite.x += frameSpeed;
     }
 
     if (a.isDown) {
-      this.sprite.x -= this.speed * deltaTime;
+      this.sprite.x -= frameSpeed;
     }
   }
 
