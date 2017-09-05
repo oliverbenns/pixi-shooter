@@ -26,6 +26,9 @@ export default class Game {
       view: domElement,
     });
 
+    // Prevent right click
+    this.renderer.view.oncontextmenu = e => e.preventDefault(); // Disables right click
+
     this.ticker.add(this.update, this);
     this.ticker.start();
   }
