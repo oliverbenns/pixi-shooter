@@ -15,31 +15,28 @@ export default class GameObject {
     if (rigidBody) {
       this.rigidBody = rigidBody;
 
-      // @TODO: This should happen automatically on creation.
-      this.sprite.position.x = this.rigidBody.position.y;
-      this.sprite.position.x = this.rigidBody.position.y;
-
-      Physics.World.add(this.game.engine.world, this.rigidBody);
+      Physics.World.add(this.game.engine.world, this.rigidBody.matter);
     }
   }
 
   get x() {
     const { rigidBody, sprite } = this;
-    return sprite ? sprite.position.x : rigidBody.position.x;
+    return sprite ? sprite.position.x : rigidBody.matter.position.x;
   }
 
   get y() {
     const { rigidBody, sprite } = this;
-    return sprite ? sprite.position.y : rigidBody.position.y;
+    return sprite ? sprite.position.y : rigidBody.matter.position.y;
   }
 
   set x(x) {
+    console.log('SETING X', x);
     if (this.sprite) {
       this.sprite.position.x = x;
     }
 
     if (this.rigidBody) {
-      this.rigidBody.position.x = x;
+      this.rigidBody.matter.position.x = x;
     }
   }
 
@@ -49,7 +46,7 @@ export default class GameObject {
     }
 
     if (this.rigidBody) {
-      this.rigidBody.position.y = y;
+      this.rigidBody.matter.position.y = y;
     }
   }
 
@@ -71,7 +68,7 @@ export default class GameObject {
     // this.sprite.rotation += this.rigidBody.angularVelocity;
 
     // @TODO: Update this so that the sprite movement actually does something. Velocity?
-    this.sprite.position.x += this.rigidBody.velocity.x;
-    this.sprite.position.y += this.rigidBody.velocity.y;
+    this.sprite.position.x += this.rigidBody.matter.velocity.x;
+    this.sprite.position.y += this.rigidBody.matter.velocity.y;
   }
 }

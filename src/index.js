@@ -10,7 +10,7 @@ const canvas = document.querySelector('#game');
 
 const game = new Game(canvas);
 
-game.engine.world.gravity.scale = 0.00005;
+game.engine.world.gravity.scale = 0;
 
 const assets = [
   { name: 'survivor', url: 'assets/img/survivor.png' },
@@ -25,9 +25,9 @@ game.load(assets, resources => {
   game.pointer = new Pointer(game);
 
   const mainScene = new MainScene(game, resources);
-  const titleScene = new TitleScene(game, resources);
+  // const titleScene = new TitleScene(game, resources);
 
-  game.scenes.add('title', titleScene);
+  // game.scenes.add('title', titleScene);
   game.scenes.add('main', mainScene);
 
   game.scenes.start('main');

@@ -7,18 +7,14 @@ export default class Crate extends GameObject {
   constructor(game, x, y) {
     const { texture } = Pixi.loader.resources.crate;
     const sprite = new Graphics.Sprite(texture);
-    const rigidBody = new Physics.Rectangle(x, y, 50, 50);
+    sprite.x = x;
+    sprite.y = y;
+    const rigidBody = new Physics.Rectangle(sprite.x, sprite.y, texture.orig.width, texture.orig.height, { debug: true });
 
     super(game, sprite, rigidBody);
-
-    // @TODO: This is not right.
-    this.sprite.x = x;
-    this.sprite.y = y;
-
-    this.update = this.update.bind(this);
   }
 
-  update(deltaTime) {
-
-  }
+  update(deltaTime) {}
 }
+
+

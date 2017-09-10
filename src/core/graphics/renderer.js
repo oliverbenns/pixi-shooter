@@ -2,7 +2,6 @@ import { WebGLRenderer } from 'pixi.js';
 
 export default class Renderer extends WebGLRenderer {
   constructor({ width, height, view }) {
-    console.log('view', view);
     super({ height, view, width, antialias: true });
 
     if (!view) {

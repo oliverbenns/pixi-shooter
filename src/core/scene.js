@@ -16,6 +16,10 @@ export default class Scene {
       this.stage.addChild(gameObject);
     }
 
+    if (gameObject.rigidBody && gameObject.rigidBody.debugger) {
+      this.stage.addChild(gameObject.rigidBody.debugger);
+    }
+
     this.gameObjects.push(gameObject);
   }
 
@@ -24,7 +28,9 @@ export default class Scene {
       if (o.rigidBody) {
         o.updatePhysics(deltaTime); // o.body ?
         o.update(deltaTime);
+        o.rigidBody.update();
       }
     });
+    // debugger;
   }
 }
