@@ -1,12 +1,15 @@
 import * as Pixi from 'pixi.js';
 import Physics from 'core/physics';
 import Graphics from 'core/graphics';
+
 import SceneManager from 'core/scene-manager';
 
 export default class Game {
   constructor(view, { height = 600, width = 800 } = {}) {
     this.renderer = new Graphics.Renderer({ width, height, view });
-    this.engine = new Physics.Engine.create();
+    this.engine = Physics.Engine.create();
+    Physics.World.createWalls(this.engine.world, width, height);
+
     this.scenes = new SceneManager();
 
     this.ticker = new Pixi.ticker.Ticker();
@@ -36,3 +39,4 @@ export default class Game {
     this.scenes.updateActive(deltaTime);
   }
 }
+
