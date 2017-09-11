@@ -1,5 +1,4 @@
 import Graphics from 'core/graphics';
-import GameObject from 'core/game-object';
 
 export default class Scene {
   constructor() {

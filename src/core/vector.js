@@ -1,4 +1,3 @@
-import * as Pixi from 'pixi.js';
 import { square } from 'lib/math';
 
 export default class Vector {

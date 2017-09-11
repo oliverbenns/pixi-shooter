@@ -1,4 +1,3 @@
-import * as Pixi from 'pixi.js';
 import Graphics from 'core/graphics';
 import Physics from 'core/physics';
 import Wireframe from 'core/wireframe';
