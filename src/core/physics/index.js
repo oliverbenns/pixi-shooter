@@ -1,4 +1,4 @@
-import { Bodies, Engine, World } from 'matter-js';
+import { Bodies, Body, Engine, World } from 'matter-js';
 import Debugger from './debugger';
 
 // @TODO: Compose this better. Don't reference with body.matter.bleh
@@ -33,6 +33,7 @@ class Rectangle {
 }
 
 export default {
+  Body,
   Engine,
   World,
   Circle: Bodies.circle,

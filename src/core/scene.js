@@ -1,4 +1,5 @@
 import Graphics from 'core/graphics';
+import GameObject from 'core/game-object';
 
 export default class Scene {
   constructor() {
@@ -9,28 +10,21 @@ export default class Scene {
   }
 
   add(gameObject) {
-    // @TODO: What if it doesnt have a sprite? What if I want to add another pixi obj?
-    if (gameObject.sprite) {
-      this.stage.addChild(gameObject.sprite);
-    } else if (gameObject instanceof Graphics.Text) {
-      this.stage.addChild(gameObject);
-    }
-
-    if (gameObject.rigidBody && gameObject.rigidBody.debugger) {
-      this.stage.addChild(gameObject.rigidBody.debugger);
-    }
-
+    this.stage.addChild(gameObject);
     this.gameObjects.push(gameObject);
+
+    if (gameObject.body && gameObject.body.debugger) {
+      this.stage.addChild(gameObject.body.debugger);
+    }
   }
 
   update(deltaTime) {
     this.gameObjects.forEach(o => {
-      if (o.rigidBody) {
-        o.updatePhysics(deltaTime); // o.body ?
+      if (o.body) {
         o.update(deltaTime);
-        o.rigidBody.update();
+        o.postUpdatePhysics(deltaTime);
+        o.body.update();
       }
     });
-    // debugger;
   }
 }

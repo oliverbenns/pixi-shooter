@@ -1,53 +1,25 @@
 import * as Pixi from 'pixi.js';
+import Graphics from 'core/graphics';
 import Physics from 'core/physics';
 
 // Main container that houses other components.
 // Inspired by Unity https://docs.unity3d.com/Manual/class-GameObject.html
-export default class GameObject {
-  constructor(game, sprite, rigidBody) {
+export default class GameObject extends Graphics.Sprite {
+  constructor(game, texture, config = { body: null, x: 0, y: 0 }) {
+    super(texture);
     this.game = game;
+    this.x = config.x;
+    this.y = config.y;
 
-    this.sprite = sprite ? sprite : null;
-
-    // @TODO: What if they add a body later?
-    // Maybe it always requires it on obj creation and we specify a disabled flag.
-    // @TODO: Put this on a body class instead.
-    if (rigidBody) {
-      this.rigidBody = rigidBody;
-
-      Physics.World.add(this.game.engine.world, this.rigidBody.matter);
+    if (config.body) {
+      this._addBody(config.body);
     }
   }
 
-  get x() {
-    const { rigidBody, sprite } = this;
-    return sprite ? sprite.position.x : rigidBody.matter.position.x;
-  }
-
-  get y() {
-    const { rigidBody, sprite } = this;
-    return sprite ? sprite.position.y : rigidBody.matter.position.y;
-  }
-
-  set x(x) {
-    console.log('SETING X', x);
-    if (this.sprite) {
-      this.sprite.position.x = x;
-    }
-
-    if (this.rigidBody) {
-      this.rigidBody.matter.position.x = x;
-    }
-  }
-
-  set y(y) {
-    if (this.sprite) {
-      this.sprite.position.y = y;
-    }
-
-    if (this.rigidBody) {
-      this.rigidBody.matter.position.y = y;
-    }
+  _addBody(body) {
+    this.body = body;
+    Physics.Body.setPosition(this.body.matter, { x: this.x, y: this.y });
+    Physics.World.add(this.game.engine.world, this.body.matter);
   }
 
   // @TODO Seperate this into a seperate body class.
@@ -60,15 +32,13 @@ export default class GameObject {
   // }
 
   // Need a pre and post here.
-  updatePhysics() {
-    if (!this.rigidBody || !this.sprite) {
+  postUpdatePhysics() {
+    if (!this.body) {
       return;
     }
 
-    // this.sprite.rotation += this.rigidBody.angularVelocity;
-
-    // @TODO: Update this so that the sprite movement actually does something. Velocity?
-    this.sprite.position.x += this.rigidBody.matter.velocity.x;
-    this.sprite.position.y += this.rigidBody.matter.velocity.y;
+    this.rotation = this.body.matter.angle;
+    this.x += this.body.matter.velocity.x;
+    this.y += this.body.matter.velocity.y;
   }
 }

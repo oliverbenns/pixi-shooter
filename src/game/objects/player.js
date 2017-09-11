@@ -9,17 +9,16 @@ import Matter from 'matter-js';
 export default class Player extends GameObject {
   constructor(game) {
     const { texture } = Pixi.loader.resources.survivor;
-    const sprite = new Graphics.Sprite(texture);
-    sprite.x = game.renderer.width / 2;
-    sprite.y = game.renderer.height / 2;
+    const x = game.renderer.width / 2;
+    const y = game.renderer.height / 2;
+    const body = new Physics.Rectangle(null, null, texture.orig.width, texture.orig.height, { debug: true });
 
-    const rigidBody = new Physics.Rectangle(sprite.x, sprite.y, texture.orig.width, texture.orig.height, { debug: true });
+    super(game, texture, { body, x, y });
 
-    super(game, sprite, rigidBody);
-
+    this.game = game;
     this.speed = 4;
     this.update = this.update.bind(this);
-    game.pointer.emitter.subscribe('move', e => this.lookTo(e.x, e.y));
+    game.pointer.emitter.subscribe('move', e => this._lookTo(e.x, e.y));
   }
 
   update(deltaTime) {
@@ -29,31 +28,36 @@ export default class Player extends GameObject {
     const frameSpeed = this.speed * deltaTime;
 
     if (w.isDown) {
-      this.sprite.y -= frameSpeed;
+      this.y -= frameSpeed;
+      // this.body.matter.position.y -= this.frameSpeed
     }
 
     if (s.isDown) {
-      this.sprite.y += frameSpeed;
+      this.y += frameSpeed;
+      // this.body.matter.position.y += this.frameSpeed
     }
 
     if (d.isDown) {
-      this.sprite.x += frameSpeed;
+      this.x += frameSpeed;
+      // this.body.matter.position.x += this.frameSpeed
     }
 
     if (a.isDown) {
-      this.sprite.x -= frameSpeed;
+      this.x -= frameSpeed;
+      // this.body.matter.position.x -= this.frameSpeed
     }
   }
 
-  lookTo(x, y) {
+  _lookTo(x, y) {
     const target = new Vector(x, y);
-    const playerP = new Vector(this.sprite.position.x, this.sprite.position.y);
+    const playerP = new Vector(this.x, this.y);
 
     const distance = target.distanceTo(playerP);
 
     const angle = Math.atan2(target.y - playerP.y, target.x - playerP.x);
 
     const degree = toDegree(angle);
-    this.sprite.rotation = angle;
+    this.rotation = angle;
+    this.body.matter.angle = angle;
   }
 }
