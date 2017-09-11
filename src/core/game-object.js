@@ -42,8 +42,8 @@ export default class GameObject extends Graphics.Sprite {
     }
 
     this.rotation = this.body.angle;
-    this.x += this.body.velocity.x;
-    this.y += this.body.velocity.y;
+    this.x = this.body.position.x;
+    this.y = this.body.position.y;
 
     if (this.wireframe) {
       this.wireframe.update(this.body.vertices);

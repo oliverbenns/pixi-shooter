@@ -4,7 +4,6 @@ import * as Pixi from 'pixi.js';
 import GameObject from 'core/game-object';
 import Graphics from 'core/graphics';
 import Physics from 'core/physics';
-import Matter from 'matter-js';
 
 export default class Player extends GameObject {
   constructor(game) {
@@ -46,6 +45,8 @@ export default class Player extends GameObject {
       this.x -= frameSpeed;
       // this.body.matter.position.x -= this.frameSpeed
     }
+
+    Physics.Body.setPosition(this.body, { x: this.x, y: this.y });
   }
 
   lookTo(x, y) {
