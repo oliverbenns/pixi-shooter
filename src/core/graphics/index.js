@@ -14,5 +14,5 @@ export default {
   Paint: Graphics,
   Renderer,
   Sprite,
-  Text
+  Text,
 };

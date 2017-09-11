@@ -13,18 +13,12 @@ export default class Scene {
     this.stage.addChild(gameObject);
     this.gameObjects.push(gameObject);
 
-    if (gameObject.body && gameObject.body.debugger) {
-      this.stage.addChild(gameObject.body.debugger);
+    if (gameObject.wireframe) {
+      this.stage.addChild(gameObject.wireframe);
     }
   }
 
   update(deltaTime) {
-    this.gameObjects.forEach(o => {
-      if (o.body) {
-        o.update(deltaTime);
-        o.postUpdatePhysics(deltaTime);
-        o.body.update();
-      }
-    });
+    this.gameObjects.forEach(o => o.updateAll(deltaTime));
   }
 }

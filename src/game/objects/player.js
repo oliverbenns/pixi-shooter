@@ -11,14 +11,14 @@ export default class Player extends GameObject {
     const { texture } = Pixi.loader.resources.survivor;
     const x = game.renderer.width / 2;
     const y = game.renderer.height / 2;
-    const body = new Physics.Rectangle(null, null, texture.orig.width, texture.orig.height, { debug: true });
+    const body = new Physics.Rectangle(null, null, texture.orig.width, texture.orig.height);
 
-    super(game, texture, { body, x, y });
+    super(game, texture, { body, x, y, debug: true });
 
     this.game = game;
     this.speed = 4;
     this.update = this.update.bind(this);
-    game.pointer.emitter.subscribe('move', e => this._lookTo(e.x, e.y));
+    game.pointer.emitter.subscribe('move', e => this.lookTo(e.x, e.y));
   }
 
   update(deltaTime) {
@@ -48,7 +48,7 @@ export default class Player extends GameObject {
     }
   }
 
-  _lookTo(x, y) {
+  lookTo(x, y) {
     const target = new Vector(x, y);
     const playerP = new Vector(this.x, this.y);
 
@@ -58,6 +58,6 @@ export default class Player extends GameObject {
 
     const degree = toDegree(angle);
     this.rotation = angle;
-    this.body.matter.angle = angle;
+    this.body.angle = angle;
   }
 }

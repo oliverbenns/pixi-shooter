@@ -6,12 +6,10 @@ import Physics from 'core/physics';
 export default class Crate extends GameObject {
   constructor(game, x, y) {
     const { texture } = Pixi.loader.resources.crate;
-    const body = new Physics.Rectangle(null, null, texture.orig.width, texture.orig.height, { debug: true });
+    const body = new Physics.Rectangle(null, null, texture.orig.width, texture.orig.height);
 
-    super(game, texture, { body, x, y });
+    super(game, texture, { body, x, y, debug: true });
   }
-
-  update(deltaTime) {}
 }
 
 
