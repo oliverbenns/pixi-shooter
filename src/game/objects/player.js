@@ -1,20 +1,16 @@
 import Vector from 'core/vector';
-import { toDegree } from 'lib/math';
 import * as Pixi from 'pixi.js';
-import GameObject from 'core/game-object';
-import Graphics from 'core/graphics';
 import Physics from 'core/physics';
+import Humanoid from 'game/objects/humanoid';
 
-export default class Player extends GameObject {
+export default class Player extends Humanoid {
   constructor(game) {
     const { texture } = Pixi.loader.resources.survivor;
     const x = game.renderer.width / 2;
     const y = game.renderer.height / 2;
-    const body = new Physics.Rectangle(null, null, texture.orig.width, texture.orig.height);
 
-    super(game, texture, { body, x, y, debug: true });
+    super(game, texture, { x, y });
 
-    this.game = game;
     this.speed = 4;
     this.update = this.update.bind(this);
     game.pointer.emitter.subscribe('move', e => this.lookTo(e.x, e.y));
@@ -47,18 +43,5 @@ export default class Player extends GameObject {
     }
 
     Physics.Body.setPosition(this.body, { x: this.x, y: this.y });
-  }
-
-  lookTo(x, y) {
-    const target = new Vector(x, y);
-    const playerP = new Vector(this.x, this.y);
-
-    const distance = target.distanceTo(playerP);
-
-    const angle = Math.atan2(target.y - playerP.y, target.x - playerP.x);
-
-    const degree = toDegree(angle);
-    this.rotation = angle;
-    this.body.angle = angle;
   }
 }
