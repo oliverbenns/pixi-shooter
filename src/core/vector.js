@@ -21,8 +21,8 @@ export default class Vector {
   }
 
   distanceTo(v) {
-    const x = this.x - v.x;
-    const y = this.y - v.y;
+    const x = v.x - this.x;
+    const y = v.y - this.y;
 
     return new Vector(x, y);
   }

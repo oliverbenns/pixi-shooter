@@ -17,5 +17,21 @@ export default class Zombie extends Humanoid {
     const { player } = this.game.scenes.active;
 
     this.lookTo(player.x, player.y);
+
+    const position = new Vector(this.y, this.x);
+    const frameSpeed = this.speed * deltaTime;
+
+    const direction = position
+      .distanceTo({ x: player.x, y: player.y })
+      .normalise();
+
+    this.x += direction.x * frameSpeed;
+    this.y += direction.y * frameSpeed;
+
+    // Physics.Body.setPosition(this.body, { x: this.x, y: this.y });
+
+    // Get distance vector of zombie to player
+    // Normalise the distance vector
+    // Move zombie to direction
   }
 }
